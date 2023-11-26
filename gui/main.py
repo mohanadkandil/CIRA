@@ -3,7 +3,7 @@ import customtkinter as tk
 import os
 from PIL import Image
 from elevenlabs import generate, play
-
+import requests
 class TUMRobot(tk.CTk):
     def __init__(self):
         super().__init__()
@@ -38,6 +38,8 @@ class TUMRobot(tk.CTk):
         self.language = self.language_menu.get()
 
     def greet(self):
+        x = requests.get("http://localhost:8080/")
+        print(x.json())
         text = ""
         if self.language_menu.get() == "Spanish":
             text = "¡Buenos días, Jamie! Hoy es un día completamente nuevo lleno de oportunidades."
