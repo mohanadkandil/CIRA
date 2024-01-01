@@ -8,6 +8,7 @@ import speech_recognition as sr
 from time import sleep
 import sys
 import threading
+import requests
 
 # Set your OpenAI API key here
 load_dotenv()
@@ -22,6 +23,21 @@ engine = pyttsx3.init('dummy')
 engine.setProperty('rate', 130)
 print(engine)
 
+url = "https://api.play.ht/api/v2/tts/stream"
+
+payload = {
+    "text": "Hello from a realistic voice.",
+    "voice": "s3://voice-cloning-zero-shot/d9ff78ba-d016-47f6-b0ef-dd630f59414e/female-cs/manifest.json",
+    "output_format": "mp3"
+}
+headers = {
+    "accept": "audio/mpeg",
+    "content-type": "application/json",
+    "AUTHORIZATION": "6286b94ba2e646849829a1e51c517cd1",
+    "X-USER-ID": "CFrHFqD6jbZHQsQsiGnKE9YlCCh2"
+}
+
+response = requests.post(url, json=payload, headers=headers)
 
 def generate_random_name():
     # Generate random unique names for the audio voice recordings
@@ -130,6 +146,10 @@ def main():
         chat_mode()
     else:
         print("Invalid mode selected. Exiting.")
+
+
+
+print(response.text)
 
 if __name__ == "__main__":
     main()
